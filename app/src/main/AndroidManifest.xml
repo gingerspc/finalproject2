@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.g.story1">
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Splash1"
+            android:label="@string/title_activity_login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SignInActivity" />
+        <activity android:name=".story.Story1" />
+        <activity android:name=".story.Story2a" />
+        <activity android:name=".story.Story2b" />
+        <activity android:name=".story.Story3b" />
+        <activity android:name=".story.Story3c" />
+        <activity android:name=".story.End1" />
+        <activity android:name=".story.End2" />
+        <activity android:name=".story.Story3a" />
+        <activity android:name=".PostActivity2" />
+        <activity android:name=".QuestionActivity" />
+        <activity android:name=".ViewPost" />
+        <activity android:name=".Splash2" ></activity>
+    </application>
+
+</manifest>
