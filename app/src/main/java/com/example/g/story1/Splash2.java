@@ -28,7 +28,7 @@ public class Splash2 extends AppCompatActivity {
 
         button1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(Splash2.this, Splash1.class));
+                startActivity(new Intent(Splash2.this, ViewPost3.class));
                 // Do something in response to button1
             }
         });

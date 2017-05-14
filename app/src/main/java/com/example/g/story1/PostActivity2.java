@@ -2,7 +2,6 @@ package com.example.g.story1;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,10 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.g.story1.models.User;
 import com.example.g.story1.models.Post;
-import com.example.g.story1.SignInActivity;
-import com.example.g.story1.story.Story1;
+import com.example.g.story1.models.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,13 +27,15 @@ public class PostActivity2 extends AppCompatActivity {
 
     private static final String TAG = "NewPostActivity";
     private static final String REQUIRED = "Required";
+    public ArrayList<String> postList;
 
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
 
-    private EditText mPost;
+    public EditText mPost;
     private Button mButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +55,30 @@ public class PostActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 submitPost();
+                cardlist();
+
+                //add to card view
             }
         });
     }
+
+    public void cardlist(){
+
+        mPost.getText().toString();
+        //postList.add(mPost.getText().toString());
+
+        //String[] date = new String[postList.size()];
+        //date = postList.toArray(date);
+
+        //for(String s : date){
+            //out print s
+        }
+
+
+        //List<postList> list = new ArrayList<T>();
+        //T [] date = list.toArray(new T[list.size()]);
+
+
 
     private void submitPost() {
         final String post = mPost.getText().toString();
@@ -108,7 +129,7 @@ public class PostActivity2 extends AppCompatActivity {
                     }
                 });
 
-        startActivity(new Intent(PostActivity2.this, ViewPost3.class));
+        startActivity(new Intent(PostActivity2.this, Splash2.class));
         // [END single_value_read]
     }
 
@@ -135,5 +156,7 @@ public class PostActivity2 extends AppCompatActivity {
 
         mDatabase.updateChildren(childUpdates);
     }
+
+
     // [END write_fan_out]
 }

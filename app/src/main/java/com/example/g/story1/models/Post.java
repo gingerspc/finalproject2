@@ -1,5 +1,7 @@
 package com.example.g.story1.models;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.HashMap;
@@ -11,7 +13,7 @@ public class Post {
     public String uid;
     public String author;
     public String text;
-    public Map<String, Boolean> stars = new HashMap<>();
+    //public Map<String, Boolean> stars = new HashMap<>();
 
     public Post() {
         // Default constructor required for calls to DataSnapshot.getValue(Comment.class)
@@ -30,6 +32,18 @@ public class Post {
         result.put("text", text);
 
         return result;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getText() {
+        return text;
     }
 
 }
