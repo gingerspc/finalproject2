@@ -35,7 +35,7 @@
         <activity android:name=".QuestionActivity" />
         <activity android:name=".ViewPost3" />
         <activity android:name=".Splash2" />
-        <activity android:name=".CardView.MainActivity" ></activity>
+        <activity android:name=".Card.MainActivity" ></activity>
     </application>
 
 </manifest>

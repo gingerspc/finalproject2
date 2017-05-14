@@ -6,6 +6,7 @@ package com.example.g.story1.Card;
 
         import android.content.Intent;
         import android.support.design.widget.Snackbar;
+        import android.support.v7.app.AppCompatActivity;
         import android.support.v7.widget.RecyclerView;
         import android.view.LayoutInflater;
         import android.view.View;
@@ -20,9 +21,10 @@ package com.example.g.story1.Card;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     //public ArrayList<String> list2 = new ArrayList<String>();
-    private String[] date = mPost.;
 
+    //String s = PostActivity2.playerList.get(i);
 
+    //private String[] date = {i};
 
     /**private String[] news = {"I hugged you", "I pet you", "I kissed you", "I miao you"};
 
@@ -76,17 +78,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        //List<T> list = new ArrayList<T>();
-        //T [] text = list.toArray(new T [list.size()]);
-
-
-        viewHolder.itemDate.setText();
-        //viewHolder.itemNews.setText(news[i]);
-        //viewHolder.itemImage.setImageResource(images[i]);
+        viewHolder.itemDate.setText(PostActivity2.playerList.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return date.length;
+        return PostActivity2.playerList.size();
     }
 }

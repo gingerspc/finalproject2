@@ -35,7 +35,9 @@ public class PostActivity2 extends AppCompatActivity {
 
     public EditText mPost;
     private Button mButton;
-
+    public String s;
+    public static ArrayList<String> playerList = new ArrayList<String>();
+    String playerlist[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,17 +64,17 @@ public class PostActivity2 extends AppCompatActivity {
         });
     }
 
-    public void cardlist(){
+    public void cardlist() {
 
-        mPost.getText().toString();
-        //postList.add(mPost.getText().toString());
-
-        //String[] date = new String[postList.size()];
-        //date = postList.toArray(date);
-
-        //for(String s : date){
-            //out print s
+        String ag = mPost.getText().toString().trim();
+        if (ag.length() != 0) {
+            playerList.add(ag);
+            mPost.setText("");
         }
+
+
+
+    }
 
 
         //List<postList> list = new ArrayList<T>();
