@@ -20,9 +20,6 @@ package com.example.g.story1.Card;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-    //public ArrayList<String> list2 = new ArrayList<String>();
-
-    //String s = PostActivity2.playerList.get(i);
 
     //private String[] date = {i};
 
@@ -52,16 +49,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
 
-                    //show details
-                    //Intent intent = new Intent();
-
-                    //snackbar will not be used
-                    /**int position = getAdapterPosition() + 1;
-
-                    Snackbar.make(v, "You just pet cat " + position,
-                            Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();*/
-
                 }
             });
         }
@@ -77,6 +64,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
+
+
 
         viewHolder.itemDate.setText(PostActivity2.playerList.get(i));
     }

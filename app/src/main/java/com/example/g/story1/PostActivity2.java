@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.g.story1.models.Post;
 import com.example.g.story1.models.User;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class PostActivity2 extends AppCompatActivity {
 
@@ -30,7 +32,7 @@ public class PostActivity2 extends AppCompatActivity {
     public ArrayList<String> postList;
 
     // [START declare_database_ref]
-    private DatabaseReference mDatabase;
+    public DatabaseReference mDatabase, mRef2;
     // [END declare_database_ref]
 
     public EditText mPost;
@@ -38,6 +40,8 @@ public class PostActivity2 extends AppCompatActivity {
     public String s;
     public static ArrayList<String> playerList = new ArrayList<String>();
     String playerlist[];
+    public int i1;
+    public static long i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +62,6 @@ public class PostActivity2 extends AppCompatActivity {
             public void onClick(View v) {
                 submitPost();
                 cardlist();
-
-                //add to card view
             }
         });
     }
@@ -72,15 +74,7 @@ public class PostActivity2 extends AppCompatActivity {
             mPost.setText("");
         }
 
-
-
     }
-
-
-        //List<postList> list = new ArrayList<T>();
-        //T [] date = list.toArray(new T[list.size()]);
-
-
 
     private void submitPost() {
         final String post = mPost.getText().toString();
@@ -114,6 +108,7 @@ public class PostActivity2 extends AppCompatActivity {
                         } else {
                             // Write new post
                             writeNewPost(userId, user.username, post);
+                            getNum();
                         }
 
                         // Finish this Activity, back to the stream
@@ -148,6 +143,80 @@ public class PostActivity2 extends AppCompatActivity {
     private void writeNewPost(String userId, String username, String text) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
+
+        if (QuestionActivity.support == 1) {
+            Random r = new Random();
+            i1 = r.nextInt(1000 - 1) + 1;
+        }
+
+        if (QuestionActivity.support == 0) {
+            Random r = new Random();
+            i1 = r.nextInt(9000 - 8001) + 8001;
+        }
+
+        //String key = mDatabase.child("posts").push().getKey();
+
+        Post post = new Post(userId, username, text);
+        Map<String, Object> postValues = post.toMap();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/posts/" + i1, postValues);
+        childUpdates.put("/user-posts/" + userId + "/" + i1, postValues);
+
+        mDatabase.updateChildren(childUpdates);
+        //clickcount=clickcount+1;
+    }
+
+    public long getNum() {
+
+        mRef2 = mDatabase.child("posts");
+        mRef2.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.e(dataSnapshot.getKey(), dataSnapshot.getChildrenCount() + "");
+                i = dataSnapshot.getChildrenCount();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
+
+        {
+            return i;
+        }
+    }
+}
+
+
+
+
+
+    // [END write_fan_out]
+
+    /** //Back up [START write_fan_out]
+    private void writeNewPost(String userId, String username, String text) {
+        // Create new post at /user-posts/$userid/$postid and at
+        // /posts/$postid simultaneously
+
+
         String key = mDatabase.child("posts").push().getKey();
         Post post = new Post(userId, username, text);
         Map<String, Object> postValues = post.toMap();
@@ -160,5 +229,4 @@ public class PostActivity2 extends AppCompatActivity {
     }
 
 
-    // [END write_fan_out]
-}
+    // Back up [END write_fan_out] */

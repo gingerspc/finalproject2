@@ -20,6 +20,8 @@ public class QuestionActivity extends AppCompatActivity {
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
 
+    public static int support = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -35,18 +37,24 @@ public class QuestionActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+
         button1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(QuestionActivity.this, PostActivity2.class));
-                // Do something in response to button1
+                support = 1;
             }
         });
 
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(QuestionActivity.this, PostActivity2.class));
-                // Do something in response to button2
+                support = 0;
             }
         });
+    }
+
+    public static int getVariable()
+    {
+        return support;
     }
 }

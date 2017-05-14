@@ -13,11 +13,15 @@ import android.widget.Toast;
 
 import com.example.g.story1.Card.MainActivity;
 import com.example.g.story1.models.Post;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Random;
+import java.util.Scanner;
 
 //public class ViewPost3 extends AppCompatActivity implements View.OnClickListener {
 public class ViewPost3 extends AppCompatActivity {
@@ -26,7 +30,8 @@ public class ViewPost3 extends AppCompatActivity {
 
     public static final String EXTRA_POST_KEY = "post_key";
 
-    private DatabaseReference mPostReference;
+    public DatabaseReference mRef, mRef2;
+    public long i = 0;
     private DatabaseReference mPostChild;
     private DatabaseReference mCommentsReference;
     private ValueEventListener mPostListener;
@@ -54,14 +59,50 @@ public class ViewPost3 extends AppCompatActivity {
             }
         });
 
-        mPostReference = FirebaseDatabase.getInstance().getReference()
-                .child("posts")
-                .child("-Kk31iGbpnUNJgLKRY8e");
+        //int size = dataSnapshot.getChildren().spliterator().getExactSizeIfKnown();
+
+        /**int i = PostActivity2.playerList.size();
+        Random r = new Random();
+        int i1 = r.nextInt(i - 1) + 1;
+        String s = Integer.toString(i1);*/
+
+        mRef = FirebaseDatabase.getInstance().getReference().child("posts");
+
+        mRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.e(dataSnapshot.getKey(),dataSnapshot.getChildrenCount() + "");
+                i = dataSnapshot.getChildrenCount();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
+        String s = Long.toString(PostActivity2.i);
+        mRef2 = mRef.child(s);
 
         //mPostChild.addValueEventListener(new ValueEventListener() {
         //mPostChild.addChildEventListener(new ChildEventListener() {
@@ -85,7 +126,7 @@ public class ViewPost3 extends AppCompatActivity {
         };
 
 
-        mPostReference.addValueEventListener(postListener);
+        mRef.addValueEventListener(postListener);
         // [END post_value_event_listener]
 
         // Keep copy of post listener so we can remove it when app stops
@@ -99,7 +140,7 @@ public class ViewPost3 extends AppCompatActivity {
 
         // Remove post value event listener
         if (mPostListener != null) {
-            mPostReference.removeEventListener(mPostListener);
+            mRef.removeEventListener(mPostListener);
         }
     }
 }
