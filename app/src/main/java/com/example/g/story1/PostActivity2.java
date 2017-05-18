@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.example.g.story1.models.Post;
 import com.example.g.story1.models.User;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,36 +20,36 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
+
+import static com.example.g.story1.QuestionActivity.support;
 
 public class PostActivity2 extends AppCompatActivity {
 
-    private static final String TAG = "NewPostActivity";
-    private static final String REQUIRED = "Required";
-    public ArrayList<String> postList;
+    private static final String TAG = "PostActivity2";
+    private static final String REQUIRED = "Cannot be empty";
+    public static ArrayList<String> postList = new ArrayList<String>();
+    String postlist[];
+    public static ArrayList<String> keyList = new ArrayList<String>();
+    String keylist[];
 
     // [START declare_database_ref]
-    public DatabaseReference mDatabase, mRef2;
+    private DatabaseReference mDatabase;
     // [END declare_database_ref]
 
     public EditText mPost;
     private Button mButton;
-    public String s;
-    public static ArrayList<String> playerList = new ArrayList<String>();
-    String playerlist[];
-    public int i1;
-    public static long i = 0;
+    public String key;
+    public String side; // or make it into int instead
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-        // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        // [END initialize_database_ref]
 
         mPost = (EditText) findViewById(R.id.story);
         mButton = (Button) findViewById(R.id.button1);
@@ -61,25 +60,25 @@ public class PostActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 submitPost();
-                cardlist();
+                //cardlist();
             }
         });
     }
 
-    public void cardlist() {
+    /**public void cardlist() {
 
         String ag = mPost.getText().toString().trim();
         if (ag.length() != 0) {
-            playerList.add(ag);
+            postList.add(ag);
             mPost.setText("");
-        }
 
-    }
+        }
+    }*/
 
     private void submitPost() {
         final String post = mPost.getText().toString();
 
-        // Title is required
+        // text is required
         if (TextUtils.isEmpty(post)) {
             mPost.setError(REQUIRED);
             return;
@@ -107,8 +106,8 @@ public class PostActivity2 extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // Write new post
-                            writeNewPost(userId, user.username, post);
-                            getNum();
+                            writeNewPost(userId, user.username, post, side);
+
                         }
 
                         // Finish this Activity, back to the stream
@@ -139,84 +138,34 @@ public class PostActivity2 extends AppCompatActivity {
         }
     }
 
-    // [START write_fan_out]
-    private void writeNewPost(String userId, String username, String text) {
+    private void writeNewPost(String userId, String username, String text, String side) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
 
-        if (QuestionActivity.support == 1) {
-            Random r = new Random();
-            i1 = r.nextInt(1000 - 1) + 1;
-        }
-
-        if (QuestionActivity.support == 0) {
-            Random r = new Random();
-            i1 = r.nextInt(9000 - 8001) + 8001;
-        }
-
-        //String key = mDatabase.child("posts").push().getKey();
-
-        Post post = new Post(userId, username, text);
+        key = mDatabase.child("posts").push().getKey();
+        Post post = new Post(userId, username, text, side);
         Map<String, Object> postValues = post.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/posts/" + i1, postValues);
-        childUpdates.put("/user-posts/" + userId + "/" + i1, postValues);
+
+        if (support == 1 ) {
+            childUpdates.put("/posts/" + "/support/" + key, postValues);
+        }
+
+        if (support == 0 ) {
+            childUpdates.put("/posts/" + "/oppose/" + key, postValues);
+            //side = "oppose";
+        }
+
+        childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);
-        //clickcount=clickcount+1;
     }
 
-    public long getNum() {
-
-        mRef2 = mDatabase.child("posts");
-        mRef2.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Log.e(dataSnapshot.getKey(), dataSnapshot.getChildrenCount() + "");
-                i = dataSnapshot.getChildrenCount();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-
-        });
-
-        {
-            return i;
-        }
-    }
-}
-
-
-
-
-
-    // [END write_fan_out]
-
-    /** //Back up [START write_fan_out]
+    /** // [START write_fan_out]
     private void writeNewPost(String userId, String username, String text) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
-
-
         String key = mDatabase.child("posts").push().getKey();
         Post post = new Post(userId, username, text);
         Map<String, Object> postValues = post.toMap();
@@ -229,4 +178,5 @@ public class PostActivity2 extends AppCompatActivity {
     }
 
 
-    // Back up [END write_fan_out] */
+    // [END write_fan_out]*/
+}

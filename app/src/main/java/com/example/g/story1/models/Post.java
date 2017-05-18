@@ -13,16 +13,18 @@ public class Post {
     public String uid;
     public String author;
     public String text;
+    public String side;
     //public Map<String, Boolean> stars = new HashMap<>();
 
     public Post() {
         // Default constructor required for calls to DataSnapshot.getValue(Comment.class)
     }
 
-    public Post(String uid, String author, String text) {
+    public Post(String uid, String author, String text, String side) {
         this.uid = uid;
         this.author = author;
         this.text = text;
+        this.side = side;
     }
 
     public Map<String, Object> toMap() {
@@ -30,7 +32,7 @@ public class Post {
         result.put("uid", uid);
         result.put("author", author);
         result.put("text", text);
-
+        result.put("side", side);
         return result;
     }
 
@@ -44,6 +46,10 @@ public class Post {
 
     public String getText() {
         return text;
+    }
+
+    public String getSide() {
+        return side;
     }
 
 }

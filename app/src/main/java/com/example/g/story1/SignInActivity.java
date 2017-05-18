@@ -124,7 +124,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         // Write new user
         writeNewUser(user.getUid(), username, user.getEmail());
 
-        // Go to MainActivity
+        // Go to CardActivity
         startActivity(new Intent(SignInActivity.this, Story1.class));
         finish();
     }

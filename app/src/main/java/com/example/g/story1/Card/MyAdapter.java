@@ -6,7 +6,6 @@ package com.example.g.story1.Card;
 
         import android.content.Intent;
         import android.support.design.widget.Snackbar;
-        import android.support.v7.app.AppCompatActivity;
         import android.support.v7.widget.RecyclerView;
         import android.view.LayoutInflater;
         import android.view.View;
@@ -20,30 +19,23 @@ package com.example.g.story1.Card;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
+    //private String[] date = {};
 
-    //private String[] date = {i};
-
-    /**private String[] news = {"I hugged you", "I pet you", "I kissed you", "I miao you"};
-
-    private String[] detail = {"This is a sleepy kitter that will not run.", "Happy kitty, sleep miaomi. This kitten is not as fluffy as the 1st one.",
-    "Lets join the fluffy pack and conquer the world!!!", "Check it out! This kitter is so cute."};
-
-    private int[] images = {R.drawable.hello, R.drawable.hello, R.drawable.hello,
-            R.drawable.hello};*/
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
         public int currentItem;
         //public ImageView itemImage;
-        public TextView itemDate;
+        public TextView PostText;
         //public TextView itemNews;
         public TextView itemDetail;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
+
             //itemImage = (ImageView)itemView.findViewById(R.id.item_image);
-            itemDate = (TextView)itemView.findViewById(R.id.item_date);
+            PostText = (TextView)itemView.findViewById(R.id.post_text);
             //itemNews = (TextView)itemView.findViewById(R.id.item_news);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -65,13 +57,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
+        //List<T> list = new ArrayList<T>();
+        //T [] text = list.toArray(new T [list.size()]);
 
 
-        viewHolder.itemDate.setText(PostActivity2.playerList.get(i));
+        viewHolder.PostText.setText(CardActivity.myPostList.get(i));
+        //viewHolder.itemNews.setText(news[i]);
+        //viewHolder.itemImage.setImageResource(images[i]);
     }
 
     @Override
     public int getItemCount() {
-        return PostActivity2.playerList.size();
+        return PostActivity2.postList.size();
     }
 }
